@@ -3,8 +3,8 @@ rm(list=ls()); gc()
 library(tidyverse)
 library(imager)
 library(stringr)
-
-# library(biOps)
+library(plot3D)
+# library(plot3Drgl)
 
 ## Lectura de la imagen ---------------------------------------------------
 
@@ -31,14 +31,10 @@ select(x, y, R, G, B)
 
 ## Visualización RGB ------------------------------------------------------
 
-
-library(plot3D)
-# library(plot3Drgl)
-
-set.seed(31818)
+# set.seed(31818)
 
 imagen_filt <- imagen %>% 
-  # sample_n(1e5) %>%
+  sample_n(1e5) %>%
   mutate(hex = rgb(R,G,B)) %>% 
   mutate(hex_num = str_replace(hex, "#", "")) %>% 
   mutate(hex_num = as.hexmode(hex_num)) %>% 
@@ -47,14 +43,14 @@ imagen_filt <- imagen %>%
 scatter3D(x = imagen_filt$R,y = imagen_filt$G, z = imagen_filt$B, 
           colvar = imagen_filt$hex_num, col = imagen_filt$hex, 
           theta = 0, phi = 20,
-          xlab = "R", ylab = "G", zlab = "B")
+          xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
 # plotrgl()
 
 dibuja_scatter3d <- function(.theta, .phi = 20){
   scatter3D(x = imagen_filt$R,y = imagen_filt$G, z = imagen_filt$B, 
             colvar = imagen_filt$hex_num, col = imagen_filt$hex, 
             theta = .theta, phi = .phi,
-            xlab = "R", ylab = "G", zlab = "B")
+            xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
 }
 
 
