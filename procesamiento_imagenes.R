@@ -5,6 +5,7 @@ library(imager)
 library(stringr)
 library(plot3D)
 # library(plot3Drgl)
+library(animation)
 
 ## Lectura de la imagen ---------------------------------------------------
 
