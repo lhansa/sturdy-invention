@@ -42,10 +42,10 @@ imagen <- imagen %>%
   # mutate(hex_num = as.hexmode(hex_num)) %>% 
   # mutate(hex_num = as.integer(hex_num))
 
-scatter3D(x = imagen$R,y = imagen$G, z = imagen$B,
-          colvar = imagen$hex_num, col = imagen$hex,
-          theta = 0, phi = 0,
-          xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
+# scatter3D(x = imagen$R,y = imagen$G, z = imagen$B,
+#           colvar = imagen$hex_num, col = imagen$hex,
+#           theta = 0, phi = 0,
+#           xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
 # plotrgl()
 
 dibuja_scatter3d <- function(.theta, .phi = 20){
