@@ -34,22 +34,22 @@ select(x, y, R, G, B)
 
 # set.seed(31818)
 
-imagen_filt <- imagen %>% 
-  sample_n(1e5) %>%
+imagen <- imagen %>% 
+  # sample_n(1e5) %>%
   mutate(hex = rgb(R,G,B)) %>% 
   mutate(hex_num = str_replace(hex, "#", "")) %>% 
   mutate(hex_num = as.hexmode(hex_num)) %>% 
   mutate(hex_num = as.integer(hex_num))
 
-scatter3D(x = imagen_filt$R,y = imagen_filt$G, z = imagen_filt$B, 
-          colvar = imagen_filt$hex_num, col = imagen_filt$hex, 
-          theta = 0, phi = 20,
-          xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
+# scatter3D(x = imagen$R,y = imagen$G, z = imagen$B, 
+#           colvar = imagen$hex_num, col = imagen$hex, 
+#           theta = 0, phi = 0,
+#           xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
 # plotrgl()
 
 dibuja_scatter3d <- function(.theta, .phi = 20){
-  scatter3D(x = imagen_filt$R,y = imagen_filt$G, z = imagen_filt$B, 
-            colvar = imagen_filt$hex_num, col = imagen_filt$hex, 
+  scatter3D(x = imagen$R,y = imagen$G, z = imagen$B, 
+            colvar = imagen$hex_num, col = imagen$hex, 
             theta = .theta, phi = .phi,
             xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
 }
@@ -57,6 +57,6 @@ dibuja_scatter3d <- function(.theta, .phi = 20){
 
 
 # saveGIF(for(i in 1:10) plot(runif(10), ylim = 0:1))
-saveGIF(walk(seq(0, 360, by = 30), dibuja_scatter3d))
+saveGIF(walk(seq(0, 360, by = 15), dibuja_scatter3d, .phi = 0))
 
 
