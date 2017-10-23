@@ -9,11 +9,11 @@ library(animation)
 
 ## Lectura de la imagen ---------------------------------------------------
 
-# fichero <- "images/IMG_20160813_083856251.jpg"
-fichero <- system.file('extdata/parrots.png',package='imager')
+fichero <- "images/guernica11.jpg"
+# fichero <- system.file('extdata/parrots.png',package='imager')
 
 imagen <- load.image(fichero)
-plot(load.image(fichero))
+# plot(load.image(fichero))
 
 ## Tratamiento ---------------------------------------------------------
 
@@ -56,7 +56,9 @@ dibuja_scatter3d <- function(.theta, .phi = 20){
 
 
 
-# saveGIF(for(i in 1:10) plot(runif(10), ylim = 0:1))
-saveGIF(walk(seq(0, 360, by = 15), dibuja_scatter3d, .phi = 0))
+## No devuelve nada
+seq(0, 360, by = 15) %>% 
+  walk(dibuja_scatter3d, .phi = 0) %>% 
+  saveGIF(movie.name = str_c(str_replace(fichero,".jpg|.png" , ""), ".gif"))
 
 
