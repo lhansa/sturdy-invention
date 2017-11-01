@@ -3,16 +3,19 @@ rm(list=ls()); gc()
 library(tidyverse)
 library(imager)
 library(stringr)
-
-# library(biOps)
+library(plot3D)
+# library(plot3Drgl)
+library(animation)
+library(plotly)
 
 ## Lectura de la imagen ---------------------------------------------------
 
 # fichero <- "images/IMG_20160813_083856251.jpg"
-fichero <- system.file('extdata/parrots.png',package='imager')
+fichero <- "images/pintura/antonio_garcia.jpg"
+# fichero <- system.file('extdata/parrots.png',package='imager')
 
 imagen <- load.image(fichero)
-plot(load.image(fichero))
+# plot(load.image(fichero))
 
 ## Tratamiento ---------------------------------------------------------
 
@@ -31,35 +34,46 @@ select(x, y, R, G, B)
 
 ## Visualización RGB ------------------------------------------------------
 
+# set.seed(31818)
 
-library(plot3D)
-# library(plot3Drgl)
-
-set.seed(31818)
-
-imagen_filt <- imagen %>% 
+imagen <- imagen %>% 
   # sample_n(1e5) %>%
   mutate(hex = rgb(R,G,B)) %>% 
-  mutate(hex_num = str_replace(hex, "#", "")) %>% 
-  mutate(hex_num = as.hexmode(hex_num)) %>% 
-  mutate(hex_num = as.integer(hex_num))
+  mutate(hex_num = 1:nrow(.))
+  # mutate(hex_num = str_replace(hex, "#", "")) %>% 
+  # mutate(hex_num = as.hexmode(hex_num)) %>% 
+  # mutate(hex_num = as.integer(hex_num))
 
-scatter3D(x = imagen_filt$R,y = imagen_filt$G, z = imagen_filt$B, 
-          colvar = imagen_filt$hex_num, col = imagen_filt$hex, 
-          theta = 0, phi = 20,
-          xlab = "R", ylab = "G", zlab = "B")
+# scatter3D(x = imagen$R,y = imagen$G, z = imagen$B,
+#           colvar = imagen$hex_num, col = imagen$hex,
+#           theta = 0, phi = 0,
+#           xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
 # plotrgl()
 
 dibuja_scatter3d <- function(.theta, .phi = 20){
-  scatter3D(x = imagen_filt$R,y = imagen_filt$G, z = imagen_filt$B, 
-            colvar = imagen_filt$hex_num, col = imagen_filt$hex, 
-            theta = .theta, phi = .phi,
-            xlab = "R", ylab = "G", zlab = "B")
+  scatter3D(x = imagen$R,y = imagen$G, z = imagen$B, 
+            colvar = imagen$hex_num, col = imagen$hex, 
+            theta = .theta, phi = .phi, pch = 16, 
+            xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
 }
 
+saveGIF(walk(seq(0, 360, by = 15),
+             dibuja_scatter3d, .phi = 0),
+        movie.name = str_replace(fichero, ".jpg|.png" , ".gif"))
 
 
-# saveGIF(for(i in 1:10) plot(runif(10), ylim = 0:1))
-saveGIF(walk(seq(0, 360, by = 30), dibuja_scatter3d))
+# for(i in seq(0,1,by = 0.1)){
+#   plot(x = 1:10, y = 1:10, col = rgb(i, i, i))
+# }
+# 
+# as.hexmode("ffffff") %>% as.numeric()
 
+## Con plotly ------------------------------------------------------
 
+imagen_sample <- imagen %>% 
+  sample_n(1e3)
+
+plot_ly(imagen_sample, 
+        x = ~R, y = ~G, z = ~B, color = I(imagen_sample$hex), 
+        size = I(2)) %>%
+  add_markers()
