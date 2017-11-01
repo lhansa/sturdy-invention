@@ -6,6 +6,7 @@ library(stringr)
 library(plot3D)
 # library(plot3Drgl)
 library(animation)
+library(plotly)
 
 ## Lectura de la imagen ---------------------------------------------------
 
@@ -52,7 +53,7 @@ imagen <- imagen %>%
 dibuja_scatter3d <- function(.theta, .phi = 20){
   scatter3D(x = imagen$R,y = imagen$G, z = imagen$B, 
             colvar = imagen$hex_num, col = imagen$hex, 
-            theta = .theta, phi = .phi,
+            theta = .theta, phi = .phi, pch = 16, 
             xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
 }
 
@@ -66,3 +67,13 @@ saveGIF(walk(seq(0, 360, by = 15),
 # }
 # 
 # as.hexmode("ffffff") %>% as.numeric()
+
+## Con plotly ------------------------------------------------------
+
+imagen_sample <- imagen %>% 
+  sample_n(1e3)
+
+plot_ly(imagen_sample, 
+        x = ~R, y = ~G, z = ~B, color = I(imagen_sample$hex), 
+        size = I(2)) %>%
+  add_markers()
