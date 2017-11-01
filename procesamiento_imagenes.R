@@ -9,7 +9,8 @@ library(animation)
 
 ## Lectura de la imagen ---------------------------------------------------
 
-fichero <- "images/IMG_20160813_083856251.jpg"
+# fichero <- "images/IMG_20160813_083856251.jpg"
+fichero <- "images/pintura/antonio_garcia.jpg"
 # fichero <- system.file('extdata/parrots.png',package='imager')
 
 imagen <- load.image(fichero)
