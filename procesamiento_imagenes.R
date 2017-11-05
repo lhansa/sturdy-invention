@@ -36,11 +36,11 @@ imagen <- imagen %>%
 
 ## GIF RGB ------------------------------------------------------
 
-# crea_gif(imagen)
+crea_gif(imagen)
 
 ## Con plotly ------------------------------------------------------
 
-crea_plotly(imagen, 31818)
+crea_plotly(imagen)
 
 ## Agregación por cuadro -------------------------------------------
 

@@ -2,14 +2,14 @@ crea_gif <- function(img,
                      angulos = seq(0, 360, by = 15), 
                      semilla = NULL, 
                      ruta = fichero){
-  
-  # if(!is.null(semilla)){
-  #   set.seed(semilla)
-  #   
-  #   img <- img %>% 
-  #     sample_n(5000) %>%
-  #     arrange(x, y) %>%
-  # } 
+  # browser()
+  if(!is.null(semilla)){
+    
+    set.seed(semilla)
+
+    img <- img %>%
+      sample_n(100) 
+  }
   
   img <- mutate_hex(img)
   
@@ -19,15 +19,17 @@ crea_gif <- function(img,
   
   # scatter3D(x = img$R,y = img$G, z = img$B,
   #           colvar = img$hex_num, col = img$hex,
-  #           theta = 0, phi = 0,pch = 16, 
-  #           xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
+  #           theta = 0, phi = 0,pch = 16,
+  #           xlab = "R", ylab = "G", zlab = "B", colkey = FALSE, 
+  #           xlim = c(0,1), ylim = c(0, 1), zlim = c(0,1))
   # plotrgl()
   
   dibuja_scatter3d <- function(.theta, .phi = 20){
     scatter3D(x = img$R,y = img$G, z = img$B, 
-              colvar = img$hex_num, col = img$hex, 
-              theta = .theta, phi = .phi, pch = 16, 
-              xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
+              colvar = 1:nrow(img), col = img$hex, 
+              theta = .theta, phi = .phi, pch = 16, # type = "h",  
+              xlab = "R", ylab = "G", zlab = "B", colkey = FALSE, 
+              xlim = c(0,1), ylim = c(0, 1), zlim = c(0,1))
   }
   
   saveGIF(walk(angulos, dibuja_scatter3d, .phi = 0),
