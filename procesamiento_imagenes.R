@@ -8,6 +8,8 @@ library(plot3D)
 library(animation)
 library(plotly)
 
+walk(list.files("src", pattern = ".R$", full.names = TRUE), source)
+
 ## Lectura de la imagen ---------------------------------------------------
 
 # fichero <- "images/IMG_20160813_083856251.jpg"
@@ -32,50 +34,12 @@ imagen <- imagen %>%
   spread(cc, value) %>% 
   select(x, y, R, G, B)
 
-## Visualización RGB ------------------------------------------------------
+## GIF RGB ------------------------------------------------------
 
-# set.seed(31818)
-
-imagen <- imagen %>% 
-  # sample_n(5000) %>% 
-  # arrange(x, y) %>% 
-  mutate(hex = rgb(R,G,B)) %>% 
-  mutate(hex_num = 1:nrow(.))
-  # mutate(hex_num = str_replace(hex, "#", "")) %>% 
-  # mutate(hex_num = as.hexmode(hex_num)) %>% 
-  # mutate(hex_num = as.integer(hex_num))
-
-# scatter3D(x = imagen$R,y = imagen$G, z = imagen$B,
-#           colvar = imagen$hex_num, col = imagen$hex,
-#           theta = 0, phi = 0,pch = 16, 
-#           xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
-# plotrgl()
-
-dibuja_scatter3d <- function(.theta, .phi = 20){
-  scatter3D(x = imagen$R,y = imagen$G, z = imagen$B, 
-            colvar = imagen$hex_num, col = imagen$hex, 
-            theta = .theta, phi = .phi, pch = 16, 
-            xlab = "R", ylab = "G", zlab = "B", colkey = FALSE)
-}
-
-saveGIF(walk(seq(0, 360, by = 15),
-             dibuja_scatter3d, .phi = 0),
-        movie.name = str_replace(fichero, ".jpg|.png" , ".gif"))
-
+# crea_gif(imagen)
 
 ## Con plotly ------------------------------------------------------
 
-set.seed(31818)
-imagen_sample <- imagen %>% 
-  sample_n(5000)
-
-ejes <- list(showgrid = FALSE, backgroundcolor = "rgba(230, 230, 230, 0.5)")
-
-scene <- list(xaxis = ejes, yaxis = ejes, zaxis = ejes)
+crea_plotly(imagen, 31818)
 
 
-plot_ly(imagen_sample, 
-        x = ~R, y = ~G, z = ~B, color = I(imagen_sample$hex), 
-        size = I(2)) %>%
-  add_markers() %>% 
-  layout(scene = scene)
