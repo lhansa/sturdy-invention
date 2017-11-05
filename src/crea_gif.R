@@ -26,7 +26,7 @@ crea_gif <- function(img,
   
   dibuja_scatter3d <- function(.theta, .phi = 20){
     scatter3D(x = img$R,y = img$G, z = img$B, 
-              colvar = 1:nrow(img), col = img$hex, 
+              colvar = 1:nrow(img), col = img$hex,
               theta = .theta, phi = .phi, pch = 16, # type = "h",  
               xlab = "R", ylab = "G", zlab = "B", colkey = FALSE, 
               xlim = c(0,1), ylim = c(0, 1), zlim = c(0,1))

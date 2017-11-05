@@ -12,6 +12,13 @@ img %>%
   filter(hex_num %in%  25:30)
 
 
+img %>% filter(hex == "#A45B3A")
+
+img %>% 
+  mutate(aux = 1:nrow(img)) %>% 
+  filter(aux == 28)
+
+
 scatter3D(x = img$R,y = img$G, z = img$B,
           col = img$hex,colvar = 1:nrow(img), 
           theta = 0, phi = 0,pch = 16, type = "h", 
@@ -23,6 +30,7 @@ text3D(x = img$R,y = img$G, z = img$B,  labels = img$hex,
 
 img <- img %>% filter(hex == "#A45B3A")
 
+
 scatter3D(x = img$R,y = img$G, z = img$B,
           col = img$hex,colvar = 1:nrow(img), 
           theta = 0, phi = 0,pch = 16,
@@ -31,7 +39,6 @@ scatter3D(x = img$R,y = img$G, z = img$B,
 
 text3D(x = img$R,y = img$G, z = img$B,  labels = img$hex,
        add = TRUE, colkey = FALSE, cex = 0.5)
-
 
 img <- img %>% 
   mutate(hex_num = 1:nrow(.))
