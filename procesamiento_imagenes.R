@@ -42,4 +42,7 @@ imagen <- imagen %>%
 
 crea_plotly(imagen, 31818)
 
+## Agregación por cuadro -------------------------------------------
 
+imagen %>% 
+  summarise_at(.vars = vars(R,G,B), .funs = funs(mean)) 
