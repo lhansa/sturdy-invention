@@ -56,3 +56,35 @@ img <- img_orig %>%
 
 img %>% filter(x == 152 & y == 161)
 img_orig %>% filter(x == 152 & y == 161)
+
+## --------------------------------------------------------------
+
+img <- imagen %>% 
+  distinct(R,G,B) %>% 
+  mutate(hex = rgb(R,G,B))
+
+imagen %>% 
+  distinct(R,G,B) %>% 
+  mutate(hex = rgb(R,G,B)) %>% 
+  distinct(hex)
+
+scatter3D(x = img$R,y = img$G, z = img$B,
+          col = img$hex,colvar = 1:nrow(img), 
+          theta = 90, phi = 0,pch = 16, # type = "h", 
+          xlab = "R", ylab = "G", zlab = "B", colkey = FALSE, 
+          xlim = c(0,1), ylim = c(0, 1), zlim = c(0,1))
+
+img <- img %>% 
+  filter(B >= 0.90)
+
+scatter3D(x = img$R,y = img$G, z = img$B,
+          col = img$hex,colvar = 1:nrow(img), 
+          theta = 90, phi = 0,pch = 16, # type = "h", 
+          xlab = "R", ylab = "G", zlab = "B", colkey = FALSE, 
+          xlim = c(0,1), ylim = c(0, 1), zlim = c(0,1))
+
+colores <- img$hex
+
+
+img %>% 
+  filter(hex %in% colores)
